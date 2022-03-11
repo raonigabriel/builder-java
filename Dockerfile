@@ -15,13 +15,9 @@ RUN apk --no-cache add \
     curl -LO  https://github.com/hadolint/hadolint/releases/download/v2.8.0/hadolint-Linux-x86_64 && \
     chmod +x hadolint-Linux-x86_64 && \ 
     mv hadolint-Linux-x86_64 /bin/hadolint && \
-# Add group and user
-   addgroup runner && adduser -G runner -s /bin/bash -D runner && chmod g+rw /home && \
 # Configure a nice terminal
-    echo "export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /home/runner/.bashrc && \
+    echo "export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /root/.bashrc && \
 # Fake poweroff (stops the container from the inside by sending SIGHUP to PID 1)
-    echo "alias poweroff='kill -1 1'" >> /home/runner/.bashrc
+    echo "alias poweroff='kill -1 1'" >> /root/.bashrc
 
-WORKDIR /home/runner
-USER runner
 ENTRYPOINT ["/bin/bash"]
