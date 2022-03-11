@@ -1,13 +1,11 @@
 # builder-java
 ---
-A Docker image with some tools to build Java and Node projects (**runs rootless**).
+A Docker image with some tools to build Java and Node projects.
 
 The intended scenario is to this image ona CI/CD such as GitHub, Gitlab, Jenkins to build and deploy Java microservices (SpringBoot, Micronaut, Quarkus).
 
 
 For now, the only arch supported is **x64**. In the future, I might add support for ARM **aarch64**.
-
-This image purposely runs **without root access**, the user:group is **runner:runner** and its GID:PID is **1000:1000**.
 
 # Features
 * bash
@@ -30,19 +28,10 @@ This image purposely runs **without root access**, the user:group is **runner:ru
 docker run --rm -it ghcr.io/raonigabriel/builder-java:latest
 ```
 
-# Adding more tools / inheriting
-To install new software using the Alpine package manager (apk), you first need to change the user to **root**, install the desired packages then return the user back to **runner**.
-
-Your Dockerfile:
+Optionally, bind-mount the docker socket to be able to build images:
 ```sh
-FROM -it ghcr.io/raonigabriel/builder-java:latest
-
-USER root
-RUN apk --no-cache add cargo py3-pip caddy ttyd
-
-USER runner
+docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/raonigabriel/builder-java:latest
 ```
-
 
 ## License
 
